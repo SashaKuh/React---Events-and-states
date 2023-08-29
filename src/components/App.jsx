@@ -1,4 +1,5 @@
 import {Component} from 'react';
+import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import {ContactForm} from './ContactForm';
 import {Section} from './Section';
@@ -16,21 +17,18 @@ export class App extends Component{
         filter: ''
     }
 
-    onSubmitForm = cont => {
-        if(this.state.contacts.some(el => el.number === cont.number)){
-            alert(
-                `This number (${
-                    cont.number
-                }) is already in the contact list, recorded as ${
-                    this.state.contacts.find(e => e.number === cont.number).name
-                }`
-            )
-            return
+    onSubmitForm = (cont) => {
+        if (this.state.contacts.find((el) => el.number === cont.number)) {
+            const existingContact = this.state.contacts.find(e => e.number === cont.number);
+            alert(`This number (${cont.number}) is already in the contact list, recorded as ${existingContact.name}`);
+          return;
         }
-        this.setState(pState => ({
-            contacts: [...pState.contacts, cont],
-        }))
-    }
+        const newContact = { ...cont, id: 'id-' + nanoid(3) }; 
+        this.setState((prevState) => ({
+          contacts: [...prevState.contacts, newContact],
+        }));
+      };
+    
 
     onChange= filter => {
         this.setState({filter: filter.toLowerCase()})

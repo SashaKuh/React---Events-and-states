@@ -1,6 +1,5 @@
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
-import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import {
     ErrorMessageStyled,
@@ -35,7 +34,6 @@ export const ContactForm = ({ onSubmit }) => {
         }}
         validationSchema={contactSchema}
         onSubmit={values => {
-            values.id = 'id-' + nanoid(3);
             onSubmit(values);
         }}
         >
